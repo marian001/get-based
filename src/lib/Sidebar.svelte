@@ -35,6 +35,12 @@
       {/if}
     </button>
   {/each}
+  <div class="nav-divider"></div>
+
+  <button class="nav-item" on:click={() => dispatch('settings')}>
+    <span class="nav-icon">⚙️</span>
+    <span class="nav-label">Settings</span>
+  </button>
 </nav>
 
 <style>

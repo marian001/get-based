@@ -3,21 +3,18 @@
   import Dashboard from './lib/Dashboard.svelte';
   import CategoryView from './lib/CategoryView.svelte';
   import DetailModal from './lib/DetailModal.svelte';
+  import Settings from './lib/Settings.svelte';
 
   let activeCategory = 'dashboard';
   let detailMarker: string | null = null;
+  let showSettings = false;
 
-  function navigate(e: CustomEvent) {
-    activeCategory = e.detail;
-  }
-
-  function openDetail(e: CustomEvent) {
-    detailMarker = e.detail;
-  }
+  function navigate(e: CustomEvent) { activeCategory = e.detail; }
+  function openDetail(e: CustomEvent) { detailMarker = e.detail; }
 </script>
 
 <div class="app-layout">
-  <Sidebar {activeCategory} on:navigate={navigate} />
+  <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} />
   <main class="app-main">
     {#if activeCategory === 'dashboard'}
       <Dashboard />
@@ -29,6 +26,10 @@
 
 {#if detailMarker}
   <DetailModal markerKey={detailMarker} on:close={() => detailMarker = null} />
+{/if}
+
+{#if showSettings}
+  <Settings on:close={() => showSettings = false} />
 {/if}
 
 <style>

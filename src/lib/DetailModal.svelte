@@ -2,6 +2,7 @@
   import { activeData } from './data';
   import { getStatus, formatValue, getTrend } from './utils';
   import { createEventDispatcher } from 'svelte';
+  import MarkerChart from './MarkerChart.svelte';
   import type { ActiveMarker } from './types';
 
   export let markerKey: string; // "category.marker" format
@@ -55,10 +56,10 @@
         </div>
       </div>
 
-      <!-- Chart placeholder -->
-      <div class="chart-placeholder">
-        <span style="color:var(--text3)">Chart.js integration — next phase</span>
-      </div>
+      <!-- Chart -->
+      {#if marker.values?.some(v => v !== null)}
+        <MarkerChart {marker} dates={$activeData.dates} dateLabels={$activeData.dateLabels} />
+      {/if}
 
       <!-- Values table -->
       <h3>History</h3>
