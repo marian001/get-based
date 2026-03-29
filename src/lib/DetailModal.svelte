@@ -82,6 +82,8 @@
         </tbody>
       </table>
 
+      <button class="add-value-btn" on:click={() => dispatch('addValue', markerKey)}>+ Add Value</button>
+
       <!-- Recommendations placeholder -->
       <div class="rec-placeholder">
         <span style="color:var(--text3)">Recommendations section — available from v1 catalog</span>
@@ -118,5 +120,7 @@
   .status-badge.high { background: rgba(248,113,113,0.15); color: var(--red); }
   .status-badge.low { background: rgba(251,191,36,0.15); color: var(--yellow); }
   .status-badge.normal { background: rgba(52,211,153,0.15); color: var(--green); }
+  .add-value-btn { width: 100%; padding: 10px; margin-top: 12px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .add-value-btn:hover { border-color: var(--accent); color: var(--accent); }
   .rec-placeholder { background: var(--bg3); border-radius: var(--radius); padding: 16px; text-align: center; margin-top: 16px; border: 1px dashed var(--border); }
 </style>

@@ -38,6 +38,11 @@
   {/each}
   <div class="nav-divider"></div>
 
+  <button class="nav-item" on:click={() => dispatch('addValue')}>
+    <span class="nav-icon">➕</span>
+    <span class="nav-label">Add Value</span>
+  </button>
+
   <button class="nav-item" on:click={() => dispatch('settings')}>
     <span class="nav-icon">⚙️</span>
     <span class="nav-label">Settings</span>

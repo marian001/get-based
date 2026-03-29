@@ -5,12 +5,15 @@
   import CategoryView from './lib/CategoryView.svelte';
   import DetailModal from './lib/DetailModal.svelte';
   import Settings from './lib/Settings.svelte';
+  import ManualEntry from './lib/ManualEntry.svelte';
   import { autoLoad, loadDemo } from './lib/loader';
   import { importedData } from './lib/stores';
 
   let activeCategory = 'dashboard';
   let detailMarker: string | null = null;
   let showSettings = false;
+  let showManualEntry = false;
+  let entryPreselect = '';
   let loading = true;
 
   onMount(() => {
@@ -35,7 +38,7 @@
   <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--text3)">Loading...</div>
 {:else}
   <div class="app-layout">
-    <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} />
+    <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} on:addValue={() => { entryPreselect = ''; showManualEntry = true; }} />
     <main class="app-main">
       {#if !hasData && activeCategory === 'dashboard'}
         <div class="welcome">
@@ -57,11 +60,15 @@
   </div>
 
   {#if detailMarker}
-    <DetailModal markerKey={detailMarker} on:close={() => detailMarker = null} />
+    <DetailModal markerKey={detailMarker} on:close={() => detailMarker = null} on:addValue={e => { entryPreselect = e.detail; showManualEntry = true; }} />
   {/if}
 
   {#if showSettings}
     <Settings on:close={() => showSettings = false} />
+  {/if}
+
+  {#if showManualEntry}
+    <ManualEntry preselectedMarker={entryPreselect} on:close={() => showManualEntry = false} />
   {/if}
 {/if}
 
