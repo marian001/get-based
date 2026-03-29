@@ -1,0 +1,27 @@
+/* V2 global styles — dark theme matching v1 */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root {
+  --bg: #0a0c14;
+  --bg2: #0f1117;
+  --bg3: #151823;
+  --surface: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.1);
+  --text: #e8eaf0;
+  --text2: #8b90a0;
+  --text3: #5a5f73;
+  --accent: #4f8cff;
+  --accent-gradient: linear-gradient(135deg, #4f8cff, #6366f1);
+  --green: #34d399;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --orange: #fb923c;
+  --purple: #a78bfa;
+  --radius: 8px;
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+html { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; }
+body { margin: 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }

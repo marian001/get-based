@@ -1,11 +1,20 @@
 {
   "private": true,
   "scripts": {
+    "v2:dev": "vite",
+    "v2:build": "vite build",
+    "v2:preview": "vite preview",
+    "v2:check": "svelte-check --tsconfig ./tsconfig.json",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "svelte": "^5.55.0",
+    "svelte-check": "^4.4.5",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
     "vitepress": "^1.6.3"
   }
 }
