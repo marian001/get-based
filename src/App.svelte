@@ -1,11 +1,18 @@
 <script lang="ts">
   import Sidebar from './lib/Sidebar.svelte';
   import Dashboard from './lib/Dashboard.svelte';
+  import CategoryView from './lib/CategoryView.svelte';
+  import DetailModal from './lib/DetailModal.svelte';
 
   let activeCategory = 'dashboard';
+  let detailMarker: string | null = null;
 
   function navigate(e: CustomEvent) {
     activeCategory = e.detail;
+  }
+
+  function openDetail(e: CustomEvent) {
+    detailMarker = e.detail;
   }
 </script>
 
@@ -15,13 +22,14 @@
     {#if activeCategory === 'dashboard'}
       <Dashboard />
     {:else}
-      <div style="padding:24px">
-        <h2>Category view — coming soon</h2>
-        <p style="color:var(--text3)">The {activeCategory} category view will be ported here.</p>
-      </div>
+      <CategoryView categoryKey={activeCategory} on:openDetail={openDetail} />
     {/if}
   </main>
 </div>
+
+{#if detailMarker}
+  <DetailModal markerKey={detailMarker} on:close={() => detailMarker = null} />
+{/if}
 
 <style>
   .app-layout { display: flex; min-height: 100vh; }
