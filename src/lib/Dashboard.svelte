@@ -118,26 +118,26 @@
 </div>
 
 <style>
-  .dashboard { padding: 24px; }
-  h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 12px; color: var(--text2); }
+  .dashboard { padding: 24px 32px; }
+  h2 { font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.3px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 28px 0 12px; color: var(--text2); }
   .subtitle { color: var(--text3); font-size: 14px; margin-bottom: 24px; }
-  .stats-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; min-width: 120px; }
-  .stat-val { font-size: 28px; font-weight: 700; }
+  .stats-row { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; min-width: 110px; box-shadow: var(--shadow); }
+  .stat-val { font-size: 28px; font-weight: 800; font-family: var(--font-display); }
   .stat-val.red { color: var(--red); }
   .stat-val.green { color: var(--green); }
-  .stat-lbl { font-size: 12px; color: var(--text3); }
-  .marker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-  .marker-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: inherit; color: var(--text); width: 100%; }
-  .marker-card:hover { border-color: var(--accent); }
-  .marker-card.high { border-left: 3px solid var(--red); }
-  .marker-card.low { border-left: 3px solid var(--yellow); }
-  .marker-card.normal { border-left: 3px solid var(--green); }
-  .marker-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .marker-value { font-size: 20px; font-weight: 700; }
-  .marker-unit { font-size: 12px; color: var(--text3); font-weight: 400; }
-  .marker-trend { font-size: 12px; margin-top: 2px; }
+  .stat-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .marker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .marker-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit; color: var(--text); width: 100%; box-shadow: var(--shadow); }
+  .marker-card:hover { border-color: var(--accent); box-shadow: var(--shadow-glow); transform: translateY(-1px); }
+  .marker-card.high { border-left: 4px solid var(--red); }
+  .marker-card.low { border-left: 4px solid var(--yellow); }
+  .marker-card.normal { border-left: 4px solid var(--green); }
+  .marker-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .marker-value { font-size: 22px; font-weight: 800; font-family: var(--font-display); }
+  .marker-unit { font-size: 11px; color: var(--text3); font-weight: 400; margin-left: 2px; }
+  .marker-trend { font-size: 12px; margin-top: 4px; }
   .marker-cat { font-size: 11px; color: var(--text3); margin-top: 4px; }
   .empty-state { text-align: center; padding: 80px 24px; color: var(--text3); }
   .empty-icon { font-size: 48px; margin-bottom: 16px; }
