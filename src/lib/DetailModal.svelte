@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
   import MarkerChart from './MarkerChart.svelte';
   import NotesEditor from './NotesEditor.svelte';
+  import Recommendations from './Recommendations.svelte';
   import type { ActiveMarker } from './types';
 
   export let markerKey: string; // "category.marker" format
@@ -87,10 +88,7 @@
 
       <button class="add-value-btn" on:click={() => dispatch('addValue', markerKey)}>+ Add Value</button>
 
-      <!-- Recommendations placeholder -->
-      <div class="rec-placeholder">
-        <span style="color:var(--text3)">Recommendations section — available from v1 catalog</span>
-      </div>
+      <Recommendations slotKey={markerKey} markerStatus={status} />
     {:else}
       <p style="color:var(--text3)">Marker not found</p>
     {/if}
