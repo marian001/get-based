@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { importedData } from './stores';
+  import { importedData, persistImportedData } from './stores';
 
   export let cardKey: string;
   export let label: string;
@@ -49,18 +49,13 @@
       }
       return d;
     });
-    // Persist
-    const pid = localStorage.getItem('labcharts-current-profile') || 'default';
-    const unsub = importedData.subscribe(d => localStorage.setItem(`labcharts-${pid}-imported`, JSON.stringify(d)));
-    unsub();
+    persistImportedData();
     dispatch('close');
   }
 
   function clear() {
     importedData.update(d => { (d as any)[cardKey] = null; return d; });
-    const pid = localStorage.getItem('labcharts-current-profile') || 'default';
-    const unsub = importedData.subscribe(d => localStorage.setItem(`labcharts-${pid}-imported`, JSON.stringify(d)));
-    unsub();
+    persistImportedData();
     dispatch('close');
   }
 

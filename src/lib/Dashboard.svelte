@@ -86,12 +86,12 @@
           {@const val = latestValue(marker)}
           {@const status = getStatus(val, marker.refMin, marker.refMax)}
           {@const trend = getTrend(marker.values || [], marker.refMin, marker.refMax)}
-          <div class="marker-card {status}">
+          <button class="marker-card {status}" on:click={() => dispatch('openDetail', key)}>
             <div class="marker-name">{marker.name}</div>
             <div class="marker-value">{formatValue(val)} <span class="marker-unit">{marker.unit}</span></div>
             <div class="marker-trend {trend.cls}">{trend.arrow}</div>
             <div class="marker-cat">{catLabel}</div>
-          </div>
+          </button>
         {/each}
       </div>
     {/if}
@@ -101,11 +101,11 @@
       <div class="marker-grid">
         {#each normalMarkers as { key, catLabel, marker } (key)}
           {@const val = latestValue(marker)}
-          <div class="marker-card normal">
+          <button class="marker-card normal" on:click={() => dispatch('openDetail', key)}>
             <div class="marker-name">{marker.name}</div>
             <div class="marker-value">{formatValue(val)} <span class="marker-unit">{marker.unit}</span></div>
             <div class="marker-cat">{catLabel}</div>
-          </div>
+          </button>
         {/each}
       </div>
     {/if}
@@ -129,7 +129,7 @@
   .stat-val.green { color: var(--green); }
   .stat-lbl { font-size: 12px; color: var(--text3); }
   .marker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-  .marker-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: all 0.15s; }
+  .marker-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: all 0.15s; text-align: left; font-family: inherit; color: var(--text); width: 100%; }
   .marker-card:hover { border-color: var(--accent); }
   .marker-card.high { border-left: 3px solid var(--red); }
   .marker-card.low { border-left: 3px solid var(--yellow); }

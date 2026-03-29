@@ -95,9 +95,9 @@ export const activeData = derived(
       if (categories[catKey]?.markers[mKey]) categories[catKey].markers[mKey].name = label as string;
     }
 
-    // Build entry lookup
-    const entries = $importedData.entries || {};
-    const entryList = Array.isArray(entries) ? entries : [];
+    // Build entry lookup — v1 stores entries as array, handle both formats
+    const rawEntries = $importedData.entries;
+    const entryList: any[] = Array.isArray(rawEntries) ? rawEntries : [];
     const entryLookup: Record<string, Record<string, number>> = {};
     for (const entry of entryList) {
       if (!entryLookup[entry.date]) entryLookup[entry.date] = {};

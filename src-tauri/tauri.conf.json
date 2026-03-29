@@ -22,7 +22,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://openrouter.ai https://api.anthropic.com https://api.venice.ai http://localhost:* http://127.0.0.1:*; img-src 'self' data:; font-src 'self'"
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://openrouter.ai https://api.anthropic.com https://api.venice.ai http://localhost:* http://127.0.0.1:* wss://sync.getbased.health; img-src 'self' data:; font-src 'self'"
     }
   },
   "bundle": {

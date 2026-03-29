@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { importedData, profileSex, currentProfile } from './stores';
+  import { importedData, profileSex, currentProfile, persistImportedData } from './stores';
 
   const dispatch = createEventDispatcher();
 
@@ -18,6 +18,7 @@
           const imported = data.importedData || data;
           importedData.set(imported);
           if (data.profileSex) profileSex.set(data.profileSex);
+          persistImportedData();
           dispatch('imported');
         } else {
           alert('Unrecognized format');

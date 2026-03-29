@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { activeData } from './data';
-  import { importedData } from './stores';
+  import { importedData, persistImportedData } from './stores';
   import { MARKER_SCHEMA } from './schema';
 
   export let preselectedMarker: string = '';
@@ -49,13 +49,7 @@
       return data;
     });
 
-    // Persist to v1 localStorage format
-    const profileId = localStorage.getItem('labcharts-current-profile') || 'default';
-    const unsub = importedData.subscribe(d => {
-      localStorage.setItem(`labcharts-${profileId}-imported`, JSON.stringify(d));
-    });
-    unsub();
-
+    persistImportedData();
     dispatch('saved', { key: fullKey, date, value: num });
     dispatch('close');
   }

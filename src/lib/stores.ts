@@ -16,7 +16,7 @@ export const profiles = writable<Profile[]>([]);
 
 // ── Data ──
 export const importedData = writable<ImportedData>({
-  entries: {},
+  entries: [],
   supplements: [],
   healthGoals: [],
   diagnoses: null,
@@ -37,6 +37,15 @@ export const importedData = writable<ImportedData>({
 
 // ── UI state ──
 export const dateRangeFilter = writable<string>('all');
+
+// ── Persistence helper — saves importedData to v1 localStorage + triggers sync ──
+export function persistImportedData() {
+  const pid = localStorage.getItem('labcharts-current-profile') || 'default';
+  const unsub = importedData.subscribe(d => localStorage.setItem(`labcharts-${pid}-imported`, JSON.stringify(d)));
+  unsub();
+  // Trigger sync if available
+  try { import('./sync').then(m => m.onDataSaved()); } catch {}
+}
 
 // ── Persist theme changes ──
 theme.subscribe(t => {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { callAI, hasAIProvider } from './ai';
-  import { importedData } from './stores';
+  import { importedData, persistImportedData } from './stores';
 
   const dispatch = createEventDispatcher();
 
@@ -148,11 +148,7 @@ ${fullText.slice(0, 8000)}`;
       return d;
     });
 
-    // Persist
-    const pid = localStorage.getItem('labcharts-current-profile') || 'default';
-    const unsub = importedData.subscribe(d => localStorage.setItem(`labcharts-${pid}-imported`, JSON.stringify(d)));
-    unsub();
-
+    persistImportedData();
     dispatch('imported');
     dispatch('close');
   }

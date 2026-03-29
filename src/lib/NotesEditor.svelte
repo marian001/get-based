@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { importedData } from './stores';
+  import { importedData, persistImportedData } from './stores';
 
   export let markerKey: string;
 
@@ -13,10 +13,7 @@
       else delete d.markerNotes[markerKey];
       return d;
     });
-    // Persist
-    const pid = localStorage.getItem('labcharts-current-profile') || 'default';
-    const unsub = importedData.subscribe(d => localStorage.setItem(`labcharts-${pid}-imported`, JSON.stringify(d)));
-    unsub();
+    persistImportedData();
   }
 </script>
 
