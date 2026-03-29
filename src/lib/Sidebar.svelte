@@ -2,6 +2,7 @@
   import { activeData } from './data';
   import { countFlagged } from './data';
   import { createEventDispatcher } from 'svelte';
+  import ImportExport from './ImportExport.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -41,10 +42,14 @@
     <span class="nav-icon">⚙️</span>
     <span class="nav-label">Settings</span>
   </button>
+
+  <div class="nav-bottom">
+    <ImportExport />
+  </div>
 </nav>
 
 <style>
-  .sidebar { width: 220px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; height: 100vh; overflow-y: auto; position: fixed; left: 0; top: 0; }
+  .sidebar { width: 220px; background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; height: 100vh; overflow-y: auto; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; }
   .nav-item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 16px; background: none; border: none; color: var(--text2); font-size: 13px; cursor: pointer; font-family: inherit; text-align: left; transition: all 0.15s; }
   .nav-item:hover { color: var(--text); background: var(--surface); }
   .nav-item.active { color: var(--accent); background: rgba(79,140,255,0.08); border-right: 2px solid var(--accent); }
@@ -52,4 +57,5 @@
   .nav-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .nav-badge { background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
   .nav-divider { height: 1px; background: var(--border); margin: 8px 16px; }
+  .nav-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 8px; }
 </style>
