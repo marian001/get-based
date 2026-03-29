@@ -4,6 +4,7 @@
   import { getStatus, formatValue, getTrend } from './utils';
   import TrendAlerts from './TrendAlerts.svelte';
   import ContextCards from './ContextCards.svelte';
+  import Supplements from './Supplements.svelte';
   import { createEventDispatcher } from 'svelte';
   import type { ActiveMarker } from './types';
 
@@ -72,6 +73,7 @@
     </div>
 
     <ContextCards on:editCard />
+    <Supplements />
 
     <TrendAlerts on:openDetail />
 
