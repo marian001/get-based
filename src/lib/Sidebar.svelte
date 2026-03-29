@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
   import ImportExport from './ImportExport.svelte';
   import Search from './Search.svelte';
+  import SyncIndicator from './SyncIndicator.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -69,6 +70,7 @@
   </button>
 
   <div class="nav-bottom">
+    <SyncIndicator />
     <ImportExport />
   </div>
 </nav>
