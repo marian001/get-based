@@ -3,6 +3,7 @@
   import { countFlagged } from './data';
   import { getStatus, formatValue, getTrend } from './utils';
   import TrendAlerts from './TrendAlerts.svelte';
+  import ContextCards from './ContextCards.svelte';
   import { createEventDispatcher } from 'svelte';
   import type { ActiveMarker } from './types';
 
@@ -69,6 +70,8 @@
         <div class="stat-lbl">Lab dates</div>
       </div>
     </div>
+
+    <ContextCards on:editCard />
 
     <TrendAlerts on:openDetail />
 

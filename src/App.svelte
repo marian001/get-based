@@ -9,6 +9,7 @@
   import Settings from './lib/Settings.svelte';
   import Glossary from './lib/Glossary.svelte';
   import ManualEntry from './lib/ManualEntry.svelte';
+  import CardEditor from './lib/CardEditor.svelte';
   import { autoLoad, loadDemo } from './lib/loader';
   import { importedData } from './lib/stores';
 
@@ -18,7 +19,15 @@
   let showGlossary = false;
   let showManualEntry = false;
   let entryPreselect = '';
+  let showCardEditor = false;
+  let editingCard = '';
   let loading = true;
+
+  const CARD_LABELS: Record<string, string> = {
+    healthGoals: 'Health Goals', diagnoses: 'Medical Conditions', diet: 'Diet & Digestion',
+    exercise: 'Exercise', sleepRest: 'Sleep & Rest', lightCircadian: 'Light & Circadian',
+    stress: 'Stress', loveLife: 'Love Life', environment: 'Environment',
+  };
 
   onMount(() => { autoLoad(); loading = false; });
 
@@ -55,7 +64,7 @@
           <p class="welcome-v2">v2 — Svelte + TypeScript rewrite</p>
         </div>
       {:else if activeCategory === 'dashboard'}
-        <Dashboard on:openDetail={openDetail} />
+        <Dashboard on:openDetail={openDetail} on:editCard={e => { editingCard = e.detail; showCardEditor = true; }} />
       {:else if activeCategory === 'compare'}
         <CompareDates />
       {:else if activeCategory === 'correlations'}
@@ -77,6 +86,9 @@
   {/if}
   {#if showManualEntry}
     <ManualEntry preselectedMarker={entryPreselect} on:close={() => showManualEntry = false} />
+  {/if}
+  {#if showCardEditor}
+    <CardEditor cardKey={editingCard} label={CARD_LABELS[editingCard] || editingCard} on:close={() => showCardEditor = false} />
   {/if}
 {/if}
 
