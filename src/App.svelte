@@ -38,7 +38,7 @@
   <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--text3)">Loading...</div>
 {:else}
   <div class="app-layout">
-    <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} on:addValue={() => { entryPreselect = ''; showManualEntry = true; }} />
+    <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} on:addValue={() => { entryPreselect = ''; showManualEntry = true; }} on:openDetail={openDetail} />
     <main class="app-main">
       {#if !hasData && activeCategory === 'dashboard'}
         <div class="welcome">

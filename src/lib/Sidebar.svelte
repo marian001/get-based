@@ -3,6 +3,7 @@
   import { countFlagged } from './data';
   import { createEventDispatcher } from 'svelte';
   import ImportExport from './ImportExport.svelte';
+  import Search from './Search.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -16,6 +17,8 @@
 </script>
 
 <nav class="sidebar">
+  <Search on:select={e => dispatch('openDetail', e.detail)} />
+
   <button
     class="nav-item" class:active={activeCategory === 'dashboard'}
     on:click={() => dispatch('navigate', 'dashboard')}>
