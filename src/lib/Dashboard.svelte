@@ -6,6 +6,7 @@
   import ContextCards from './ContextCards.svelte';
   import Supplements from './Supplements.svelte';
   import GeneticsSection from './GeneticsSection.svelte';
+  import KeyTrends from './KeyTrends.svelte';
   import { createEventDispatcher } from 'svelte';
   import type { ActiveMarker } from './types';
 
@@ -77,6 +78,7 @@
     <Supplements />
     <GeneticsSection />
 
+    <KeyTrends on:openDetail />
     <TrendAlerts on:openDetail />
 
     {#if flaggedMarkers.length > 0}
