@@ -3,8 +3,10 @@
   import Sidebar from './lib/Sidebar.svelte';
   import Dashboard from './lib/Dashboard.svelte';
   import CategoryView from './lib/CategoryView.svelte';
+  import CompareDates from './lib/CompareDates.svelte';
   import DetailModal from './lib/DetailModal.svelte';
   import Settings from './lib/Settings.svelte';
+  import Glossary from './lib/Glossary.svelte';
   import ManualEntry from './lib/ManualEntry.svelte';
   import { autoLoad, loadDemo } from './lib/loader';
   import { importedData } from './lib/stores';
@@ -12,23 +14,18 @@
   let activeCategory = 'dashboard';
   let detailMarker: string | null = null;
   let showSettings = false;
+  let showGlossary = false;
   let showManualEntry = false;
   let entryPreselect = '';
   let loading = true;
 
-  onMount(() => {
-    autoLoad();
-    loading = false;
-  });
+  onMount(() => { autoLoad(); loading = false; });
 
   function navigate(e: CustomEvent) { activeCategory = e.detail; }
   function openDetail(e: CustomEvent) { detailMarker = e.detail; }
 
-  async function demo(sex: 'male' | 'female') {
-    await loadDemo(sex);
-  }
+  async function demo(sex: 'male' | 'female') { await loadDemo(sex); }
 
-  // Check if we have data
   $: hasData = Array.isArray($importedData.entries)
     ? ($importedData.entries as any[]).length > 0
     : Object.keys($importedData.entries || {}).length > 0;
@@ -38,7 +35,12 @@
   <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--text3)">Loading...</div>
 {:else}
   <div class="app-layout">
-    <Sidebar {activeCategory} on:navigate={navigate} on:settings={() => showSettings = true} on:addValue={() => { entryPreselect = ''; showManualEntry = true; }} on:openDetail={openDetail} />
+    <Sidebar {activeCategory}
+      on:navigate={navigate}
+      on:settings={() => showSettings = true}
+      on:glossary={() => showGlossary = true}
+      on:addValue={() => { entryPreselect = ''; showManualEntry = true; }}
+      on:openDetail={openDetail} />
     <main class="app-main">
       {#if !hasData && activeCategory === 'dashboard'}
         <div class="welcome">
@@ -53,6 +55,8 @@
         </div>
       {:else if activeCategory === 'dashboard'}
         <Dashboard />
+      {:else if activeCategory === 'compare'}
+        <CompareDates />
       {:else}
         <CategoryView categoryKey={activeCategory} on:openDetail={openDetail} />
       {/if}
@@ -62,11 +66,12 @@
   {#if detailMarker}
     <DetailModal markerKey={detailMarker} on:close={() => detailMarker = null} on:addValue={e => { entryPreselect = e.detail; showManualEntry = true; }} />
   {/if}
-
   {#if showSettings}
     <Settings on:close={() => showSettings = false} />
   {/if}
-
+  {#if showGlossary}
+    <Glossary on:close={() => showGlossary = false} on:openDetail={e => { detailMarker = e.detail; }} />
+  {/if}
   {#if showManualEntry}
     <ManualEntry preselectedMarker={entryPreselect} on:close={() => showManualEntry = false} />
   {/if}

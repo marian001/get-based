@@ -3,6 +3,7 @@
   import { getStatus, formatValue, getTrend } from './utils';
   import { createEventDispatcher } from 'svelte';
   import MarkerChart from './MarkerChart.svelte';
+  import NotesEditor from './NotesEditor.svelte';
   import type { ActiveMarker } from './types';
 
   export let markerKey: string; // "category.marker" format
@@ -81,6 +82,8 @@
           {/each}
         </tbody>
       </table>
+
+      <NotesEditor {markerKey} />
 
       <button class="add-value-btn" on:click={() => dispatch('addValue', markerKey)}>+ Add Value</button>
 

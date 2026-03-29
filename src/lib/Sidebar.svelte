@@ -41,11 +41,20 @@
   {/each}
   <div class="nav-divider"></div>
 
+  <div class="nav-divider"></div>
+
+  <button class="nav-item" class:active={activeCategory === 'compare'} on:click={() => dispatch('navigate', 'compare')}>
+    <span class="nav-icon">🔄</span>
+    <span class="nav-label">Compare Dates</span>
+  </button>
+  <button class="nav-item" on:click={() => dispatch('glossary')}>
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">Glossary</span>
+  </button>
   <button class="nav-item" on:click={() => dispatch('addValue')}>
     <span class="nav-icon">➕</span>
     <span class="nav-label">Add Value</span>
   </button>
-
   <button class="nav-item" on:click={() => dispatch('settings')}>
     <span class="nav-icon">⚙️</span>
     <span class="nav-label">Settings</span>
