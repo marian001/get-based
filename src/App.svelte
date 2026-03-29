@@ -47,14 +47,14 @@
 {#if loading}
   <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--text3)">Loading...</div>
 {:else}
-  <header class="app-header">
-    <h1 class="logo">getbased</h1>
+  <header class="header">
+    <h1>getbased</h1>
     <div class="header-info">
-      <span class="header-version">v2</span>
+      <span style="font-size:11px;color:var(--accent);background:rgba(79,140,255,0.1);padding:2px 8px;border-radius:4px;font-family:var(--font-mono)">v2</span>
     </div>
   </header>
 
-  <div class="app-layout">
+  <div class="layout">
     <Sidebar {activeCategory}
       on:navigate={navigate}
       on:settings={() => showSettings = true}
@@ -62,7 +62,7 @@
       on:addValue={() => { entryPreselect = ''; showManualEntry = true; }}
       on:importPdf={() => showPdfImport = true}
       on:openDetail={openDetail} />
-    <main class="app-main">
+    <main class="content">
       {#if !hasData && activeCategory === 'dashboard'}
         <div class="welcome">
           <h1>getbased</h1>
@@ -110,18 +110,12 @@
 {/if}
 
 <style>
-  .app-header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
-  .logo { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .header-info { display: flex; gap: 12px; align-items: center; }
-  .header-version { font-size: 11px; color: var(--accent); background: rgba(79,140,255,0.1); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); }
-  .app-layout { display: flex; min-height: calc(100vh - 49px); }
-  .app-main { margin-left: 240px; flex: 1; min-width: 0; }
   .welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; padding: 24px; }
   .welcome h1 { font-family: var(--font-display); font-size: 48px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .welcome-sub { font-size: 18px; color: var(--text2); margin-bottom: 32px; }
-  .welcome-note { font-size: 14px; color: var(--text3); margin-bottom: 20px; }
+  .welcome-sub { font-size: 18px; color: var(--text-secondary); margin-bottom: 32px; }
+  .welcome-note { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
   .welcome-actions { display: flex; gap: 12px; margin-bottom: 48px; }
-  .btn-demo { padding: 12px 28px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg3); color: var(--text); font-size: 15px; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: var(--shadow); }
+  .btn-demo { padding: 12px 28px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-size: 15px; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: var(--shadow); }
   .btn-demo:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-glow); transform: translateY(-1px); }
-  .welcome-v2 { font-size: 11px; color: var(--text3); font-family: var(--font-mono); }
+  .welcome-v2 { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
 </style>

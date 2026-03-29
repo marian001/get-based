@@ -63,22 +63,6 @@
 </nav>
 
 <style>
-  .sidebar {
-    width: 240px; background: var(--bg2); border-right: 1px solid var(--border);
-    padding: 8px 0; height: calc(100vh - 49px); overflow-y: auto; position: fixed; left: 0; top: 49px;
-    display: flex; flex-direction: column; z-index: 10;
-  }
-  .nav-item {
-    display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 16px;
-    background: none; border: none; color: var(--text2); font-size: 13px;
-    cursor: pointer; font-family: inherit; text-align: left; transition: all 0.15s;
-    border-left: 3px solid transparent;
-  }
-  .nav-item:hover { color: var(--text); background: var(--bg-hover); }
-  .nav-item.active { color: var(--accent); background: rgba(79,140,255,0.06); border-left-color: var(--accent); }
-  .nav-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
-  .nav-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .nav-badge { background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; flex-shrink: 0; }
-  .nav-divider { height: 1px; background: var(--border); margin: 6px 14px; }
+  /* Use v1's global .sidebar styles, only override what's needed */
   .nav-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 6px; }
 </style>

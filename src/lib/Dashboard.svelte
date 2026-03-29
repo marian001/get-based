@@ -86,11 +86,11 @@
           {@const val = latestValue(marker)}
           {@const status = getStatus(val, marker.refMin, marker.refMax)}
           {@const trend = getTrend(marker.values || [], marker.refMin, marker.refMax)}
-          <button class="marker-card {status}" on:click={() => dispatch('openDetail', key)}>
-            <div class="marker-name">{marker.name}</div>
-            <div class="marker-value">{formatValue(val)} <span class="marker-unit">{marker.unit}</span></div>
-            <div class="marker-trend {trend.cls}">{trend.arrow}</div>
-            <div class="marker-cat">{catLabel}</div>
+          <button class="chart-card status-{status}" on:click={() => dispatch('openDetail', key)}>
+            <div class="chart-card-header"><div><span class="chart-card-name">{marker.name}</span></div></div>
+            <div class="chart-card-value">{formatValue(val)} <span class="chart-card-unit">{marker.unit}</span></div>
+            <div class="chart-card-trend {trend.cls}">{trend.arrow}</div>
+            <div class="chart-card-cat">{catLabel}</div>
           </button>
         {/each}
       </div>
@@ -101,10 +101,10 @@
       <div class="marker-grid">
         {#each normalMarkers as { key, catLabel, marker } (key)}
           {@const val = latestValue(marker)}
-          <button class="marker-card normal" on:click={() => dispatch('openDetail', key)}>
-            <div class="marker-name">{marker.name}</div>
-            <div class="marker-value">{formatValue(val)} <span class="marker-unit">{marker.unit}</span></div>
-            <div class="marker-cat">{catLabel}</div>
+          <button class="chart-card status-normal" on:click={() => dispatch('openDetail', key)}>
+            <div class="chart-card-header"><div><span class="chart-card-name">{marker.name}</span></div></div>
+            <div class="chart-card-value">{formatValue(val)} <span class="chart-card-unit">{marker.unit}</span></div>
+            <div class="chart-card-cat">{catLabel}</div>
           </button>
         {/each}
       </div>
@@ -119,32 +119,22 @@
 
 <style>
   .dashboard { padding: 24px 32px; }
-  h2 { font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.3px; }
-  h3 { font-size: 15px; font-weight: 600; margin: 28px 0 12px; color: var(--text2); }
-  .subtitle { color: var(--text3); font-size: 14px; margin-bottom: 24px; }
+  .dashboard h2 { font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+  .dashboard h3 { font-size: 15px; font-weight: 600; margin: 28px 0 12px; color: var(--text-secondary); }
+  .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
   .stats-row { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; min-width: 110px; box-shadow: var(--shadow); }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; min-width: 110px; }
   .stat-val { font-size: 28px; font-weight: 800; font-family: var(--font-display); }
   .stat-val.red { color: var(--red); }
   .stat-val.green { color: var(--green); }
-  .stat-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
-  .marker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-  .marker-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit; color: var(--text); width: 100%; box-shadow: var(--shadow); }
-  .marker-card:hover { border-color: var(--accent); box-shadow: var(--shadow-glow); transform: translateY(-1px); }
-  .marker-card.high { border-left: 4px solid var(--red); }
-  .marker-card.low { border-left: 4px solid var(--yellow); }
-  .marker-card.normal { border-left: 4px solid var(--green); }
-  .marker-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-  .marker-value { font-size: 22px; font-weight: 800; font-family: var(--font-display); }
-  .marker-unit { font-size: 11px; color: var(--text3); font-weight: 400; margin-left: 2px; }
-  .marker-trend { font-size: 12px; margin-top: 4px; }
-  .marker-cat { font-size: 11px; color: var(--text3); margin-top: 4px; }
-  .empty-state { text-align: center; padding: 80px 24px; color: var(--text3); }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .chart-card-value { font-size: 22px; font-weight: 800; font-family: var(--font-display); margin: 6px 0 2px; }
+  .chart-card-unit { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+  .chart-card-trend { font-size: 12px; }
+  .chart-card-cat { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .status-high { border-left: 4px solid var(--red); }
+  .status-low { border-left: 4px solid var(--yellow); }
+  .status-normal { border-left: 4px solid var(--green); }
+  .empty-state { text-align: center; padding: 80px 24px; color: var(--text-muted); }
   .empty-icon { font-size: 48px; margin-bottom: 16px; }
-
-  :global(.trend-up.trend-bad) { color: var(--red); }
-  :global(.trend-down.trend-bad) { color: var(--red); }
-  :global(.trend-up.trend-good) { color: var(--green); }
-  :global(.trend-down.trend-good) { color: var(--green); }
-  :global(.trend-stable), :global(.trend-up.trend-neutral), :global(.trend-down.trend-neutral) { color: var(--text3); }
 </style>
