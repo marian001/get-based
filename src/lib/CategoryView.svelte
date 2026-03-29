@@ -75,24 +75,24 @@
 {/if}
 
 <style>
-  .category-view { padding: 24px; }
-  h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { color: var(--text3); font-size: 14px; margin-bottom: 20px; }
-  .marker-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .marker-table th { text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border); color: var(--text3); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
-  .marker-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .category-view { padding: 24px 32px; }
+  h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.3px; }
+  .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
+  .marker-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); border-radius: var(--radius-sm); overflow: hidden; }
+  .marker-table th { text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+  .marker-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
   .marker-row { cursor: pointer; transition: background 0.1s; }
-  .marker-row:hover { background: var(--surface); }
+  .marker-row:hover { background: var(--bg-hover); }
   .marker-name-cell { font-weight: 600; white-space: nowrap; }
-  .marker-unit-small { font-size: 11px; color: var(--text3); font-weight: 400; margin-left: 4px; }
+  .marker-unit-small { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
   .date-col { text-align: center; }
-  .val-cell { text-align: center; font-family: var(--font-mono); font-size: 13px; }
+  .val-cell { text-align: center; font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
   .val-cell.flagged { color: var(--red); font-weight: 600; }
-  .ref-cell { text-align: center; color: var(--text3); font-size: 12px; }
+  .ref-cell { text-align: center; color: var(--text-muted); font-size: 12px; }
   .trend-cell { text-align: center; font-size: 12px; }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
   .status-dot.high { background: var(--red); }
   .status-dot.low { background: var(--yellow); }
   .status-dot.normal { background: var(--green); }
-  .status-dot.missing { background: var(--text3); }
+  .status-dot.missing { background: var(--text-muted); }
 </style>

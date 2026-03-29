@@ -97,21 +97,21 @@
 {/if}
 
 <style>
-  .alerts-section { margin-top: 24px; }
-  h3 { font-size: 16px; font-weight: 600; color: var(--text2); margin-bottom: 12px; }
+  .alerts-section { margin-bottom: 24px; }
+  h3 { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
   .alerts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
-  .alert-card { display: flex; gap: 12px; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; text-align: left; font-family: inherit; color: var(--text); transition: border-color 0.15s; width: 100%; }
+  .alert-card { display: flex; gap: 12px; padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; text-align: left; font-family: inherit; color: var(--text-primary); transition: all 0.15s; width: 100%; }
   .alert-card:hover { border-color: var(--accent); }
-  .alert-card.alert-urgent { border-left: 3px solid var(--red); }
-  .alert-card.alert-warn { border-left: 3px solid var(--yellow); }
-  .alert-card.alert-watch { border-left: 3px solid var(--orange); }
+  .alert-card.alert-urgent { border-left: 4px solid var(--red); }
+  .alert-card.alert-warn { border-left: 4px solid var(--yellow); }
+  .alert-card.alert-watch { border-left: 4px solid var(--orange); }
   .alert-arrow { font-size: 20px; font-weight: 700; flex-shrink: 0; width: 24px; text-align: center; }
   .alert-urgent .alert-arrow { color: var(--red); }
   .alert-warn .alert-arrow { color: var(--yellow); }
   .alert-watch .alert-arrow { color: var(--orange); }
   .alert-info { flex: 1; min-width: 0; }
   .alert-name { font-size: 13px; font-weight: 600; }
-  .alert-cat { font-size: 11px; color: var(--text3); font-weight: 400; margin-left: 4px; }
-  .alert-concern { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .alert-spark { font-size: 11px; color: var(--text3); font-family: var(--font-mono); margin-top: 2px; }
+  .alert-cat { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+  .alert-concern { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .alert-spark { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
 </style>
