@@ -11,6 +11,7 @@
   import ManualEntry from './lib/ManualEntry.svelte';
   import CardEditor from './lib/CardEditor.svelte';
   import ChatPanel from './lib/ChatPanel.svelte';
+  import PdfImport from './lib/PdfImport.svelte';
   import { autoLoad, loadDemo } from './lib/loader';
   import { importedData } from './lib/stores';
 
@@ -22,6 +23,7 @@
   let entryPreselect = '';
   let showCardEditor = false;
   let editingCard = '';
+  let showPdfImport = false;
   let loading = true;
 
   const CARD_LABELS: Record<string, string> = {
@@ -51,6 +53,7 @@
       on:settings={() => showSettings = true}
       on:glossary={() => showGlossary = true}
       on:addValue={() => { entryPreselect = ''; showManualEntry = true; }}
+      on:importPdf={() => showPdfImport = true}
       on:openDetail={openDetail} />
     <main class="app-main">
       {#if !hasData && activeCategory === 'dashboard'}
@@ -90,6 +93,10 @@
   {/if}
   {#if showCardEditor}
     <CardEditor cardKey={editingCard} label={CARD_LABELS[editingCard] || editingCard} on:close={() => showCardEditor = false} />
+  {/if}
+
+  {#if showPdfImport}
+    <PdfImport on:close={() => showPdfImport = false} />
   {/if}
 
   <ChatPanel />

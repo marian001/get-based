@@ -55,6 +55,10 @@
     <span class="nav-icon">📖</span>
     <span class="nav-label">Glossary</span>
   </button>
+  <button class="nav-item" on:click={() => dispatch('importPdf')}>
+    <span class="nav-icon">📄</span>
+    <span class="nav-label">Import PDF</span>
+  </button>
   <button class="nav-item" on:click={() => dispatch('addValue')}>
     <span class="nav-icon">➕</span>
     <span class="nav-label">Add Value</span>
