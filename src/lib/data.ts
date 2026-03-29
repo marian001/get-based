@@ -1,21 +1,21 @@
 // Data pipeline — transforms raw imported data into active chart/table data
 // V2 port of v1's getActiveData() as a derived store
 import { derived } from 'svelte/store';
-import { importedData, profileSex } from './stores';
+import { importedData, profileSex, unitSystem, timeFormat } from './stores';
 import { MARKER_SCHEMA } from './schema';
 import type { MarkerSchema, ActiveData, ActiveMarker } from './types';
 
-// Import v1 optimal ranges and phase ranges (shared data, no logic)
+// Import v1 optimal ranges and unit conversions (shared data, no logic)
 // @ts-ignore
-import { OPTIMAL_RANGES, PHASE_RANGES } from '../../js/schema.js';
+import { OPTIMAL_RANGES, UNIT_CONVERSIONS } from '../../js/schema.js';
 
 /**
  * Reactive data pipeline. Recomputes whenever importedData or profileSex changes.
  * Replaces v1's `getActiveData()` which was called imperatively on every render.
  */
 export const activeData = derived(
-  [importedData, profileSex],
-  ([$importedData, $profileSex]): ActiveData => {
+  [importedData, profileSex, unitSystem, timeFormat],
+  ([$importedData, $profileSex, $unitSystem, $timeFormat]): ActiveData => {
     // Deep clone schema as starting point
     const categories: ActiveData['categories'] = JSON.parse(JSON.stringify(MARKER_SCHEMA));
 
@@ -112,7 +112,9 @@ export const activeData = derived(
     const dates = [...dateSet].sort();
     const dateLabels = dates.map(d => {
       const dt = new Date(d + 'T00:00:00');
-      return dt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      const opts: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
+      if ($timeFormat === '12h') opts.hour12 = true;
+      return dt.toLocaleDateString('en-US', opts);
     });
 
     // Populate marker values
@@ -120,6 +122,24 @@ export const activeData = derived(
       for (const [markerKey, marker] of Object.entries(cat.markers) as [string, ActiveMarker][]) {
         const fullKey = `${catKey}.${markerKey}`;
         marker.values = dates.map(date => entryLookup[date]?.[fullKey] ?? null);
+      }
+    }
+
+    // Apply US unit conversion if needed
+    if ($unitSystem === 'US' && UNIT_CONVERSIONS) {
+      for (const [catKey, cat] of Object.entries(categories)) {
+        for (const [mKey, marker] of Object.entries(cat.markers) as [string, ActiveMarker][]) {
+          const conv = UNIT_CONVERSIONS[`${catKey}.${mKey}`];
+          if (!conv) continue;
+          marker.unit = conv.unit;
+          if (conv.factor) {
+            marker.values = marker.values.map(v => v !== null ? +(v * conv.factor).toFixed(4) : null);
+            if (marker.refMin != null) marker.refMin = +(marker.refMin * conv.factor).toFixed(4);
+            if (marker.refMax != null) marker.refMax = +(marker.refMax * conv.factor).toFixed(4);
+            if (marker.optimalMin != null) marker.optimalMin = +(marker.optimalMin * conv.factor).toFixed(4);
+            if (marker.optimalMax != null) marker.optimalMax = +(marker.optimalMax * conv.factor).toFixed(4);
+          }
+        }
       }
     }
 

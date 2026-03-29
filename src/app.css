@@ -25,3 +25,31 @@ html { background: var(--bg); color: var(--text); font-family: var(--font-body);
 body { margin: 0; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+/* Light theme */
+[data-theme="light"] {
+  --bg: #f8f9fc;
+  --bg2: #ffffff;
+  --bg3: #f0f1f5;
+  --surface: rgba(0,0,0,0.03);
+  --border: rgba(0,0,0,0.1);
+  --text: #1a1d2e;
+  --text2: #5a5f73;
+  --text3: #8b90a0;
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-layout .sidebar { width: 60px; }
+  .app-layout .sidebar .nav-label,
+  .app-layout .sidebar .nav-badge,
+  .app-layout .sidebar .search-wrap,
+  .app-layout .sidebar .nav-bottom { display: none; }
+  .app-layout .sidebar .nav-icon { font-size: 20px; width: auto; }
+  .app-layout .app-main { margin-left: 60px; }
+}
+@media (max-width: 480px) {
+  .app-layout .sidebar { display: none; }
+  .app-layout .app-main { margin-left: 0; }
+}

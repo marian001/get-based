@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { getStatus } from './utils';
+  import { rangeMode } from './stores';
   import type { ActiveMarker } from './types';
 
   export let marker: ActiveMarker;
@@ -88,6 +89,7 @@
         // Reference range band
         id: 'refBand',
         beforeDraw(chart: any) {
+          if ($rangeMode === 'optimal') return;
           if (marker.refMin == null || marker.refMax == null) return;
           const { ctx, chartArea, scales: { y } } = chart;
           if (!chartArea || !y) return;
@@ -107,6 +109,7 @@
         // Optimal range band
         id: 'optBand',
         beforeDraw(chart: any) {
+          if ($rangeMode === 'reference') return;
           if (marker.optimalMin == null || marker.optimalMax == null) return;
           const { ctx, chartArea, scales: { y } } = chart;
           if (!chartArea || !y) return;
@@ -126,8 +129,15 @@
     });
   }
 
-  // Recreate chart when data changes
-  $: if (Chart && canvas && marker) createChart();
+  // Recreate chart when marker values change (not on every store update)
+  let prevValuesKey = '';
+  $: {
+    const key = JSON.stringify(marker?.values);
+    if (Chart && canvas && marker && key !== prevValuesKey) {
+      prevValuesKey = key;
+      createChart();
+    }
+  }
 </script>
 
 <div class="chart-container">

@@ -35,9 +35,6 @@ export const importedData = writable<ImportedData>({
   biometrics: null,
 });
 
-// ── UI state ──
-export const dateRangeFilter = writable<string>('all');
-
 // ── Persistence helper — saves importedData to v1 localStorage + triggers sync ──
 export function persistImportedData() {
   const pid = localStorage.getItem('labcharts-current-profile') || 'default';

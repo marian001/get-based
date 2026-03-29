@@ -18,7 +18,8 @@ export function loadProfile(profileId: string) {
       const data: ImportedData = JSON.parse(raw);
       importedData.set(data);
     } catch {
-      importedData.set({ entries: {}, customMarkers: {}, markerNotes: {}, changeHistory: [], genetics: null, menstrualCycle: null, biometrics: null });
+      console.warn('[loader] Corrupted profile data, starting fresh');
+      importedData.set({ entries: [], customMarkers: {}, markerNotes: {}, changeHistory: [], genetics: null, menstrualCycle: null, biometrics: null });
     }
   }
 
