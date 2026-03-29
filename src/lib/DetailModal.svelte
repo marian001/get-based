@@ -7,7 +7,7 @@
   import Recommendations from './Recommendations.svelte';
   import type { ActiveMarker } from './types';
 
-  export let markerKey: string; // "category.marker" format
+  export let markerKey: string;
   const dispatch = createEventDispatcher();
 
   $: [catKey, mKey] = markerKey.split('.');
@@ -17,111 +17,116 @@
   $: status = marker ? getStatus(latest, marker.refMin, marker.refMax) : 'missing';
   $: trend = marker ? getTrend(marker.values || [], marker.refMin, marker.refMax) : { arrow: '—', cls: '' };
 
+  // Build value entries with dates
+  $: valueEntries = (() => {
+    if (!marker) return [];
+    return ($activeData.dates || []).map((date, i) => ({
+      date, label: $activeData.dateLabels[i],
+      value: marker!.values?.[i] ?? null,
+      status: getStatus(marker!.values?.[i] ?? null, marker!.refMin, marker!.refMax),
+    })).filter(e => e.value !== null).reverse();
+  })();
+
   function close() { dispatch('close'); }
   function onKeydown(e: KeyboardEvent) { if (e.key === 'Escape') close(); }
 </script>
 
 <svelte:window on:keydown={onKeydown} />
 
-<div class="modal-backdrop" on:click|self={close} role="dialog" tabindex="-1">
-  <div class="detail-modal">
-    <button class="modal-close" on:click={close}>&times;</button>
+<div class="dm-overlay" on:click|self={close} role="dialog" tabindex="-1">
+  <div class="dm-modal">
+    <button class="dm-close" on:click={close}>&times;</button>
 
     {#if marker}
-      <div class="modal-header">
-        <h2>{marker.name}</h2>
-        <span class="modal-unit">{marker.unit}</span>
+      <!-- Header -->
+      <div class="dm-top">
+        <h2 class="dm-name">{marker.name} <span class="dm-unit">{marker.unit}</span></h2>
+        {#if marker.optimalMin != null}
+          <div class="dm-range">Optimal: {formatValue(marker.optimalMin)} – {formatValue(marker.optimalMax)} · Ref: {formatValue(marker.refMin)} – {formatValue(marker.refMax)}</div>
+        {:else}
+          <div class="dm-range">Ref: {formatValue(marker.refMin)} – {formatValue(marker.refMax)}</div>
+        {/if}
       </div>
 
       {#if marker.desc}
-        <p class="modal-desc">{marker.desc}</p>
+        <p class="dm-desc">{marker.desc}</p>
       {/if}
-
-      <div class="modal-stats">
-        <div class="modal-stat">
-          <div class="modal-stat-val {status}">{formatValue(latest)}</div>
-          <div class="modal-stat-lbl">Latest</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-val">{formatValue(marker.refMin)} – {formatValue(marker.refMax)}</div>
-          <div class="modal-stat-lbl">Reference</div>
-        </div>
-        {#if marker.optimalMin != null}
-          <div class="modal-stat">
-            <div class="modal-stat-val" style="color:var(--green)">{formatValue(marker.optimalMin)} – {formatValue(marker.optimalMax)}</div>
-            <div class="modal-stat-lbl">Optimal</div>
-          </div>
-        {/if}
-        <div class="modal-stat">
-          <div class="modal-stat-val {trend.cls}">{trend.arrow}</div>
-          <div class="modal-stat-lbl">Trend</div>
-        </div>
-      </div>
 
       <!-- Chart -->
       {#if marker.values?.some(v => v !== null)}
-        <MarkerChart {marker} dates={$activeData.dates} dateLabels={$activeData.dateLabels} />
+        <div class="dm-chart-wrap">
+          <MarkerChart {marker} dates={$activeData.dates} dateLabels={$activeData.dateLabels} />
+        </div>
       {/if}
 
-      <!-- Values table -->
-      <h3>History</h3>
-      <table class="history-table">
-        <thead>
-          <tr><th>Date</th><th>Value</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          {#each $activeData.dates as date, i}
-            {@const val = marker.values?.[i] ?? null}
-            {#if val !== null}
-              {@const s = getStatus(val, marker.refMin, marker.refMax)}
-              <tr>
-                <td>{$activeData.dateLabels[i]}</td>
-                <td class="val-cell">{formatValue(val)} {marker.unit}</td>
-                <td><span class="status-badge {s}">{s}</span></td>
-              </tr>
-            {/if}
-          {/each}
-        </tbody>
-      </table>
+      <!-- Value cards grid (like v1) -->
+      <div class="dm-values-grid">
+        {#each valueEntries as entry (entry.date)}
+          <div class="dm-value-card {entry.status}">
+            <div class="dm-val-date">{entry.label}</div>
+            <div class="dm-val-num">{formatValue(entry.value)}</div>
+            <div class="dm-val-status">
+              {#if entry.status === 'high'}▲ Above Range
+              {:else if entry.status === 'low'}▼ Below Range
+              {:else}● In Range
+              {/if}
+            </div>
+          </div>
+        {/each}
+      </div>
 
+      <!-- Trend -->
+      <div class="dm-trend">
+        <span class="dm-trend-label">Trend:</span>
+        <span class={trend.cls}>{trend.arrow}</span>
+      </div>
+
+      <!-- Notes -->
       <NotesEditor {markerKey} />
 
-      <button class="add-value-btn" on:click={() => dispatch('addValue', markerKey)}>+ Add Value</button>
+      <!-- Actions -->
+      <div class="dm-actions">
+        <button class="dm-btn" on:click={() => dispatch('addValue', markerKey)}>+ Add Value</button>
+      </div>
 
+      <!-- Recommendations -->
       <Recommendations slotKey={markerKey} markerStatus={status} />
     {:else}
-      <p style="color:var(--text3)">Marker not found</p>
+      <p style="color:var(--text-muted)">Marker not found</p>
     {/if}
   </div>
 </div>
 
 <style>
-  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; overflow-y: auto; }
-  .detail-modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 100%; max-width: 640px; position: relative; }
-  .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: var(--text3); font-size: 24px; cursor: pointer; padding: 4px; }
-  .modal-close:hover { color: var(--text); }
-  .modal-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-  .modal-header h2 { font-size: 20px; font-weight: 700; }
-  .modal-unit { font-size: 13px; color: var(--text3); }
-  .modal-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 16px; }
-  h3 { font-size: 14px; font-weight: 600; color: var(--text2); margin: 20px 0 8px; }
-  .modal-stats { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
-  .modal-stat { background: var(--bg3); border-radius: var(--radius); padding: 12px 16px; min-width: 100px; }
-  .modal-stat-val { font-size: 18px; font-weight: 700; }
-  .modal-stat-val.high { color: var(--red); }
-  .modal-stat-val.low { color: var(--yellow); }
-  .modal-stat-val.normal { color: var(--green); }
-  .modal-stat-lbl { font-size: 11px; color: var(--text3); }
-  .chart-placeholder { background: var(--bg3); border-radius: var(--radius); height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px dashed var(--border); }
-  .history-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .history-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid var(--border); color: var(--text3); font-size: 11px; text-transform: uppercase; }
-  .history-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
-  .val-cell { font-family: var(--font-mono); }
-  .status-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .status-badge.high { background: rgba(248,113,113,0.15); color: var(--red); }
-  .status-badge.low { background: rgba(251,191,36,0.15); color: var(--yellow); }
-  .status-badge.normal { background: rgba(52,211,153,0.15); color: var(--green); }
-  .add-value-btn { width: 100%; padding: 10px; margin-top: 12px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
-  .add-value-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .rec-placeholder { background: var(--bg3); border-radius: var(--radius); padding: 16px; text-align: center; margin-top: 16px; border: 1px dashed var(--border); }
+  .dm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 275; display: flex; justify-content: center; align-items: flex-start; padding: 32px 16px; overflow-y: auto; }
+  .dm-modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; width: 100%; max-width: 680px; position: relative; box-shadow: var(--shadow-lg); }
+  .dm-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: var(--text-muted); font-size: 28px; cursor: pointer; line-height: 1; }
+  .dm-close:hover { color: var(--text-primary); }
+
+  .dm-top { margin-bottom: 12px; }
+  .dm-name { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+  .dm-unit { font-size: 13px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+  .dm-range { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+  .dm-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; padding: 10px 14px; background: var(--bg-secondary); border-radius: var(--radius-sm); }
+
+  .dm-chart-wrap { margin-bottom: 20px; background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 12px; }
+
+  .dm-values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .dm-value-card { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 12px 14px; text-align: center; border-top: 3px solid var(--border); }
+  .dm-value-card.high { border-top-color: var(--red); }
+  .dm-value-card.low { border-top-color: var(--yellow); }
+  .dm-value-card.normal { border-top-color: var(--green); }
+  .dm-val-date { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .dm-val-num { font-size: 22px; font-weight: 800; font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+  .dm-val-status { font-size: 10px; margin-top: 4px; }
+  .dm-value-card.high .dm-val-status { color: var(--red); }
+  .dm-value-card.low .dm-val-status { color: var(--yellow); }
+  .dm-value-card.normal .dm-val-status { color: var(--green); }
+
+  .dm-trend { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+  .dm-trend-label { color: var(--text-muted); margin-right: 6px; }
+
+  .dm-actions { margin: 12px 0; }
+  .dm-btn { width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .dm-btn:hover { border-color: var(--accent); color: var(--accent); }
 </style>
