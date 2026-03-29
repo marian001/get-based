@@ -10,6 +10,7 @@
   import Glossary from './lib/Glossary.svelte';
   import ManualEntry from './lib/ManualEntry.svelte';
   import CardEditor from './lib/CardEditor.svelte';
+  import ChatPanel from './lib/ChatPanel.svelte';
   import { autoLoad, loadDemo } from './lib/loader';
   import { importedData } from './lib/stores';
 
@@ -90,6 +91,8 @@
   {#if showCardEditor}
     <CardEditor cardKey={editingCard} label={CARD_LABELS[editingCard] || editingCard} on:close={() => showCardEditor = false} />
   {/if}
+
+  <ChatPanel />
 {/if}
 
 <style>
