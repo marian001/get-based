@@ -4,6 +4,7 @@
   import Dashboard from './lib/Dashboard.svelte';
   import CategoryView from './lib/CategoryView.svelte';
   import CompareDates from './lib/CompareDates.svelte';
+  import Correlations from './lib/Correlations.svelte';
   import DetailModal from './lib/DetailModal.svelte';
   import Settings from './lib/Settings.svelte';
   import Glossary from './lib/Glossary.svelte';
@@ -54,9 +55,11 @@
           <p class="welcome-v2">v2 — Svelte + TypeScript rewrite</p>
         </div>
       {:else if activeCategory === 'dashboard'}
-        <Dashboard />
+        <Dashboard on:openDetail={openDetail} />
       {:else if activeCategory === 'compare'}
         <CompareDates />
+      {:else if activeCategory === 'correlations'}
+        <Correlations />
       {:else}
         <CategoryView categoryKey={activeCategory} on:openDetail={openDetail} />
       {/if}

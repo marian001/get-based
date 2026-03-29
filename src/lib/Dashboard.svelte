@@ -2,7 +2,11 @@
   import { activeData } from './data';
   import { countFlagged } from './data';
   import { getStatus, formatValue, getTrend } from './utils';
+  import TrendAlerts from './TrendAlerts.svelte';
+  import { createEventDispatcher } from 'svelte';
   import type { ActiveMarker } from './types';
+
+  const dispatch = createEventDispatcher();
 
   $: allMarkers = (() => {
     const results: { key: string; catKey: string; catLabel: string; marker: ActiveMarker }[] = [];
@@ -65,6 +69,8 @@
         <div class="stat-lbl">Lab dates</div>
       </div>
     </div>
+
+    <TrendAlerts on:openDetail />
 
     {#if flaggedMarkers.length > 0}
       <h3>Out of Range</h3>

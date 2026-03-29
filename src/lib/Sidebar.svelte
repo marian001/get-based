@@ -47,6 +47,10 @@
     <span class="nav-icon">🔄</span>
     <span class="nav-label">Compare Dates</span>
   </button>
+  <button class="nav-item" class:active={activeCategory === 'correlations'} on:click={() => dispatch('navigate', 'correlations')}>
+    <span class="nav-icon">📈</span>
+    <span class="nav-label">Correlations</span>
+  </button>
   <button class="nav-item" on:click={() => dispatch('glossary')}>
     <span class="nav-icon">📖</span>
     <span class="nav-label">Glossary</span>
