@@ -63,6 +63,30 @@
 </nav>
 
 <style>
-  /* Use v1's global .sidebar styles, only override what's needed */
+  .sidebar {
+    width: 240px; background: var(--bg-secondary); border-right: 1px solid var(--border);
+    padding: 8px 0; height: calc(100vh - 49px); overflow-y: auto; position: fixed;
+    left: 0; top: 49px; display: flex; flex-direction: column; z-index: 10;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 20px;
+    background: none; border: none; color: var(--text-secondary); font-size: 13px;
+    cursor: pointer; font-family: inherit; text-align: left; transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { color: var(--text-primary); background: var(--bg-hover); }
+  .nav-item.active { color: var(--accent); background: rgba(79,140,255,0.06); border-left-color: var(--accent); font-weight: 600; }
+  .nav-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
+  .nav-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-badge { background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; flex-shrink: 0; }
+  .nav-divider { height: 1px; background: var(--border); margin: 6px 16px; }
   .nav-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 6px; }
+  @media (max-width: 768px) {
+    .sidebar { width: 56px; }
+    .nav-label, .nav-badge { display: none; }
+    .nav-icon { font-size: 18px; width: auto; }
+    .nav-item { padding: 10px 16px; justify-content: center; }
+    .nav-bottom :global(.ie-bar), .nav-bottom :global(.sync-enable-btn) { display: none; }
+  }
+  @media (max-width: 480px) { .sidebar { display: none; } }
 </style>
